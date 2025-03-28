@@ -6,6 +6,10 @@
     Please select a field group from the left panel
   </div>
 
+
+  <div cdkDropList #formElementsList="cdkDropList" [cdkDropListData]="fields" (cdkDropListDropped)="drop($event)"
+    (cdkDropListEntered)="onDragEnter($event)" (cdkDropListExited)="onDragExit()" class="space-y-2 min-h-20 relative">
+
   <div *ngIf="selectedGroup" class="space-y-2">
     <div *ngIf="fields.length === 0"
       class="text-center py-8 text-gray-500 border-2 border-dashed border-gray-300 rounded-lg"
@@ -13,9 +17,6 @@
       Drag the elements from the right panel to add them to this group
     </div>
   </div>
-
-  <div cdkDropList #formElementsList="cdkDropList" [cdkDropListData]="fields" (cdkDropListDropped)="drop($event)"
-    (cdkDropListEntered)="onDragEnter($event)" (cdkDropListExited)="onDragExit()" class="space-y-2 min-h-20 relative">
     <div *ngIf="fields.length > 0" class="drop-zone-placeholder" [class.active]="isDraggingOverTop"
       (cdkDropListEntered)="setDropPosition('top')" (cdkDropListExited)="clearDropPosition()">
     </div>
