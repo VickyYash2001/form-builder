@@ -3,16 +3,18 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/angular",
+      "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "dist/form-browser"
+        "distDir": "dist/form-builder/browser",
+        "installCommand": "npm install --legacy-peer-deps",
+        "buildCommand": "npm run build"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/form-browser/$1"
+      "dest": "/$1"
     }
   ]
 }
