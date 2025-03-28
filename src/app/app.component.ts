@@ -42,20 +42,4 @@ export class AppComponent implements AfterViewInit {
       this.formElementsPanel.formElementsList.connectedTo = [this.propertiesDrawer.libraryList];
     }
   }
-
-  // drop(event: CdkDragDrop<FormField[]>) {
-  //   if (event.previousContainer === event.container) {
-  //     // Reorder within the same list
-  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  //   } else {
-  //     // Transfer between lists
-  //     transferArrayItem(
-  //       event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //     // You'll need to update your service/data model here
-  //   }
-  // }
 }
