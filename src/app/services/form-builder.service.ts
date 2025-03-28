@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FieldGroup } from '../models/field-group.model';
 import { FormField, FormFieldType } from '../models/form-field.model';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Injectable({
   providedIn: 'root'
@@ -77,21 +78,74 @@ export class FormBuilderService {
     }
   }
 
-  addFieldToGroup(groupId: string, fieldType: FormFieldType): void {
+  addFieldToGroup(groupId: string, fieldType: FormFieldType, name?: string): void {
     const group = this.getFieldGroup(groupId);
     if (group) {
       const newField: FormField = {
         id: this.generateId(),
         type: fieldType,
-        name: '',
+        name: name || this.getDefaultName(fieldType), // Use provided name or default
         required: false
       };
 
-      if (fieldType === FormFieldType.Select || fieldType === FormFieldType.Radio || fieldType === FormFieldType.Multiselect) {
+      if (fieldType === FormFieldType.Select ||
+        fieldType === FormFieldType.Radio ||
+        fieldType === FormFieldType.Multiselect) {
         newField.options = ['Option 1', 'Option 2'];
       }
 
       group.fields.push(newField);
+      this.updateFieldGroup(group);
+      this.setSelectedFieldId(newField.id);
+    }
+  }
+
+  private getDefaultName(fieldType: FormFieldType): string {
+    const typeNames = {
+      [FormFieldType.Text]: 'Text Field',
+      [FormFieldType.Textarea]: 'Text Area',
+      [FormFieldType.Number]: 'Number',
+      [FormFieldType.Email]: 'Email',
+      [FormFieldType.Date]: 'Date',
+      [FormFieldType.Time]: 'Time',
+      [FormFieldType.Datetime]: 'Date Time',
+      [FormFieldType.Select]: 'Dropdown',
+      [FormFieldType.Radio]: 'Radio Buttons',
+      [FormFieldType.Checkbox]: 'Checkbox',
+      [FormFieldType.Multiselect]: 'Multi Select',
+      [FormFieldType.File]: 'File Upload'
+    };
+    return typeNames[fieldType] || 'Field';
+  }
+
+  addFieldToGroupAtPosition(
+    groupId: string,
+    fieldType: FormFieldType,
+    name?: string,
+    position?: number
+  ): void {
+    const group = this.getFieldGroup(groupId);
+    if (group) {
+      const newField: FormField = {
+        id: this.generateId(),
+        type: fieldType,
+        name: name || this.getDefaultName(fieldType),
+        required: false
+      };
+
+      if (fieldType === FormFieldType.Select ||
+        fieldType === FormFieldType.Radio ||
+        fieldType === FormFieldType.Multiselect) {
+        newField.options = ['Option 1', 'Option 2'];
+      }
+
+      // Insert at specified position or at the end
+      if (position !== undefined && position >= 0 && position <= group.fields.length) {
+        group.fields.splice(position, 0, newField);
+      } else {
+        group.fields.push(newField);
+      }
+
       this.updateFieldGroup(group);
       this.setSelectedFieldId(newField.id);
     }
@@ -121,9 +175,24 @@ export class FormBuilderService {
     return Math.random().toString(36).substring(2, 11);
   }
 
-  handleDrop(groupId: string, fieldType: string): void {
-    if (Object.values(FormFieldType).includes(fieldType as FormFieldType)) {
-      this.addFieldToGroup(groupId, fieldType as FormFieldType);
+  handleDrop(groupId: string, event: CdkDragDrop<any[]>): void {
+    if (event.previousContainer === event.container) {
+      // Reorder within the same list
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      // Transfer from library to form
+      const fieldType = event.previousContainer.data[event.previousIndex].type;
+      this.addFieldToGroup(groupId, fieldType);
+    }
+
+    // Update the group
+    const group = this.getFieldGroup(groupId);
+    if (group) {
+      this.updateFieldGroup(group);
     }
   }
 }

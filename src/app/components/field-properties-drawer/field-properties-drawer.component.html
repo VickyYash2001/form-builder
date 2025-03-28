@@ -1,11 +1,10 @@
 <div class="space-y-4">
-
   <h2 class="text-xl font-semibold text-gray-800">
-    Available Elements
+    Elements
   </h2>
 
-  <div class="grid grid-cols-2 gap-3">
-    <div *ngFor="let field of fieldTypes" draggable="true" (dragstart)="onDragStart($event, field.type)"
+  <div cdkDropList #libraryList="cdkDropList" [cdkDropListData]="fieldTypes" class="grid grid-cols-1 gap-3">
+    <div *ngFor="let field of fieldTypes" cdkDrag [cdkDragData]="field"
       class="p-3 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition cursor-move">
       <div class="flex items-center gap-2">
         <span class="material-icons-outlined text-gray-600">{{ field.icon}}</span>

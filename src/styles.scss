@@ -1,3 +1,24 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import "tailwind-import.css";
+
+.drop-zone-placeholder {
+  height: 4px;
+  margin: 2px 0;
+  background-color: transparent;
+  transition: all 0.2s ease;
+
+  &.active {
+    background-color: #3b82f6; // blue-500
+    height: 6px;
+    margin: 4px 0;
+  }
+}
+
+.cdk-drag-preview {
+  opacity: 0.5;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}

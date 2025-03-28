@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FieldGroupsPanelComponent } from './components/field-groups-panel/field-groups-panel.component';
 import { FormElementsPanelComponent } from './components/form-elements-panel/form-elements-panel.component';
 import { ElementsLibraryPanelComponent } from './components/elements-library-panel/elements-library-panel.component';
 import { FieldPropertiesDrawerComponent } from './components/field-properties-drawer/field-properties-drawer.component';
 import { LivePreviewComponent } from './components/live-preview/live-preview.component';
+import { CdkDragDrop, moveItemInArray, transferArrayItem,
+  DragDropModule, } from '@angular/cdk/drag-drop';
+import { FormField } from './models/form-field.model';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -14,12 +17,16 @@ import { LivePreviewComponent } from './components/live-preview/live-preview.com
     FormElementsPanelComponent,
     ElementsLibraryPanelComponent,
     FieldPropertiesDrawerComponent,
-    LivePreviewComponent
+    LivePreviewComponent,
+    DragDropModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+  @ViewChild(FieldPropertiesDrawerComponent) propertiesDrawer!: FieldPropertiesDrawerComponent;
+  @ViewChild(FormElementsPanelComponent) formElementsPanel!: FormElementsPanelComponent;
+
   title = 'Form Builder';
   showPreview = false;
 
@@ -27,4 +34,28 @@ export class AppComponent {
   togglePreview() {
     this.showPreview = !this.showPreview;
   }
+
+  ngAfterViewInit() {
+    // Connect the drop lists
+    if (this.propertiesDrawer && this.formElementsPanel) {
+      this.propertiesDrawer.libraryList.connectedTo = [this.formElementsPanel.formElementsList];
+      this.formElementsPanel.formElementsList.connectedTo = [this.propertiesDrawer.libraryList];
+    }
+  }
+
+  // drop(event: CdkDragDrop<FormField[]>) {
+  //   if (event.previousContainer === event.container) {
+  //     // Reorder within the same list
+  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  //   } else {
+  //     // Transfer between lists
+  //     transferArrayItem(
+  //       event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex
+  //     );
+  //     // You'll need to update your service/data model here
+  //   }
+  // }
 }
