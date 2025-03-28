@@ -41,7 +41,10 @@ export class FieldGroupsPanelComponent implements OnInit {
         id: this.generateId(),
         name: this.newGroupName,
         description: this.newGroupDescription,
-        fields: []
+        fields: [],
+        required: false,
+        min: null,
+        max: null
       };
       this.formBuilderService.addFieldGroup(newGroup);
       this.newGroupName = '';

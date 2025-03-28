@@ -4,6 +4,7 @@ import { FieldGroupsPanelComponent } from './components/field-groups-panel/field
 import { FormElementsPanelComponent } from './components/form-elements-panel/form-elements-panel.component';
 import { ElementsLibraryPanelComponent } from './components/elements-library-panel/elements-library-panel.component';
 import { FieldPropertiesDrawerComponent } from './components/field-properties-drawer/field-properties-drawer.component';
+import { LivePreviewComponent } from './components/live-preview/live-preview.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,12 +13,18 @@ import { FieldPropertiesDrawerComponent } from './components/field-properties-dr
     FieldGroupsPanelComponent,
     FormElementsPanelComponent,
     ElementsLibraryPanelComponent,
-    FieldPropertiesDrawerComponent
-
+    FieldPropertiesDrawerComponent,
+    LivePreviewComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'Form Builder';
+  showPreview = false;
+
+
+  togglePreview() {
+    this.showPreview = !this.showPreview;
+  }
 }

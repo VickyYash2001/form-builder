@@ -1,1 +1,79 @@
-<p>elements-library-panel works!</p>
+<div class="space-y-4">
+  <h2 class="text-xl font-semibold text-gray-800">Field Properties</h2>
+
+  <div *ngIf="!selectedField" class="text-center py-8 text-gray-500">
+    Select a field to edit its properties
+  </div>
+
+  <div *ngIf="selectedField" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Field Type</label>
+      <div class="p-2 bg-gray-100 rounded text-sm">{{ getFieldTypeName(selectedField.type) }}</div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Field Name</label>
+      <input [(ngModel)]="selectedField.name" (change)="updateField()" type="text"
+        class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Enter field name">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+      <textarea [(ngModel)]="selectedField.description" (change)="updateField()"
+        class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Enter description (optional)"></textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Placeholder</label>
+      <input [(ngModel)]="selectedField.placeholder" (change)="updateField()" type="text"
+        class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Enter placeholder text">
+    </div>
+
+    <div class="flex items-center">
+      <input [(ngModel)]="selectedField.required" (change)="updateField()" type="checkbox" id="requiredField"
+        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+      <label for="requiredField" class="ml-2 block text-sm text-gray-700">Required Field</label>
+    </div>
+
+    <div
+      *ngIf="selectedField.type === 'select' || selectedField.type === 'radio' || selectedField.type === 'multiselect'">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Options (one per line)</label>
+      <textarea [(ngModel)]="optionsString" (change)="updateField()"
+        class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Option 1&#10;Option 2&#10;Option 3" rows="4"></textarea>
+    </div>
+
+    <div *ngIf="selectedField.type === 'number'">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Min Value</label>
+          <input [(ngModel)]="selectedField.min" (change)="updateField()" type="number"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Max Value</label>
+          <input [(ngModel)]="selectedField.max" (change)="updateField()" type="number"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedField.type === 'file'">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Accepted File Types</label>
+        <input [(ngModel)]="selectedField.accept" (change)="updateField()" type="text"
+          class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+          placeholder=".pdf,.jpg,.png">
+        <p class="text-xs text-gray-500 mt-1">Comma separated extensions (e.g., .pdf,.jpg,.png)</p>
+      </div>
+      <div class="mt-2">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Max File Size (MB)</label>
+        <input [(ngModel)]="selectedField.maxSize" (change)="updateField()" type="number"
+          class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+      </div>
+    </div>
+  </div>
+</div>

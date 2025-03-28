@@ -1,0 +1,110 @@
+<div class="space-y-4">
+  <h2 class="text-xl font-semibold text-gray-800">Live Preview</h2>
+
+  <div *ngIf="!selectedGroup" class="text-center py-8 text-gray-500">
+    Select a field group to preview
+  </div>
+
+  <div *ngIf="selectedGroup" class="space-y-4">
+
+    <div *ngIf="selectedGroup.fields.length === 0" class="text-center py-8 text-gray-500">
+      No fields in this group yet
+    </div>
+
+
+    <form *ngIf="selectedGroup.fields.length > 0" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div *ngFor="let field of selectedGroup.fields" class="space-y-1">
+        <label class="block text-sm font-medium text-gray-700">
+          {{field.name || 'Unnamed field'}}
+          <span *ngIf="field.required" class="text-red-500">*</span>
+        </label>
+
+        <div [ngSwitch]="field.type" class="mt-1">
+          <!-- Text input -->
+          <input *ngSwitchCase="'text'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [placeholder]="field.placeholder || ''" [required]="field.required || false" type="text"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+
+          <!-- Textarea -->
+          <textarea *ngSwitchCase="'textarea'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [placeholder]="field.placeholder || ''" [required]="field.required || false" rows="3"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"></textarea>
+
+          <!-- Number input -->
+          <input *ngSwitchCase="'number'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [placeholder]="field.placeholder || ''" [required]="field.required  || false" [min]="field.min ?? null"
+            [max]="field.max ?? null" type="number"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+
+          <!-- Email input -->
+          <input *ngSwitchCase="'email'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [placeholder]="field.placeholder || ''" [required]="field.required  || false" type="email"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+
+          <!-- Date input -->
+          <input *ngSwitchCase="'date'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [required]="field.required  || false" type="date"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+
+          <!-- Time input -->
+          <input *ngSwitchCase="'time'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [required]="field.required || false" type="time"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+
+          <!-- Datetime input -->
+          <input *ngSwitchCase="'datetime'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [required]="field.required  || false" type="datetime-local"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+
+          <!-- Select dropdown -->
+          <select *ngSwitchCase="'select'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [required]="field.required  || false"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+            <option value="" disabled selected>Select an option</option>
+            <option *ngFor="let option of field.options" [value]="option">{{option}}</option>
+          </select>
+
+          <!-- Radio buttons -->
+          <div *ngSwitchCase="'radio'" class="space-y-2">
+            <div *ngFor="let option of field.options" class="flex items-center">
+              <input [(ngModel)]="previewData[field.id]" [name]="field.id" [id]="field.id + option" [value]="option"
+                [required]="field.required || false" type="radio"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+              <label [for]="field.id + option" class="ml-2 block text-sm text-gray-700">{{option}}</label>
+            </div>
+          </div>
+
+          <!-- Checkbox -->
+          <div *ngSwitchCase="'checkbox'" class="flex items-center">
+            <input [(ngModel)]="previewData[field.id]" [name]="field.id" [id]="field.id" type="checkbox"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label [for]="field.id" class="ml-2 block text-sm text-gray-700">{{field.placeholder || 'Check this
+              box'}}</label>
+          </div>
+
+          <!-- Multiselect -->
+          <select *ngSwitchCase="'multiselect'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [required]="field.required || false" multiple
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+            <option *ngFor="let option of field.options" [value]="option">{{option}}</option>
+          </select>
+
+          <!-- File upload -->
+          <input *ngSwitchCase="'file'" [(ngModel)]="previewData[field.id]" [name]="field.id"
+            [required]="field.required || false" [accept]="field.accept || ''" type="file"
+            class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <button type="button" (click)="resetPreviewData()"
+          class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">
+          Reset
+        </button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
