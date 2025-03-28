@@ -3,21 +3,23 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build",
+      "use": "@vercel/angular",
       "config": {
-        "distDir": "dist/form-builder/browser",
-        "installCommand": "npm install --legacy-peer-deps",
-        "buildCommand": "npm run build"
+        "outputDirectory": "dist/form-builder/browser"
       }
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html",
+      "src": "/[^.]+",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/assets/(?<assetPath>.*)",
       "headers": {
-        "Cache-Control": "no-cache"
-      }
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     }
   ]
 }
