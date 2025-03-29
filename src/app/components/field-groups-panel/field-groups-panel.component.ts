@@ -18,6 +18,7 @@ export class FieldGroupsPanelComponent implements OnInit {
   newGroupDescription = '';
   isAddingGroup = false;
   selectedGroupId: string | null = null;
+  editingGroupId: string | null = null;
 
 
   constructor(
@@ -47,12 +48,39 @@ export class FieldGroupsPanelComponent implements OnInit {
         max: null
       };
       this.formBuilderService.addFieldGroup(newGroup);
-      this.newGroupName = '';
-      this.newGroupDescription = '';
-      this.isAddingGroup = false;
+      this.resetForm();
       this.selectGroup(newGroup.id);
       this.loadFieldGroups();
     }
+  }
+
+
+  startEditingGroup(group: FieldGroup): void {
+    this.editingGroupId = group.id;
+    this.newGroupName = group.name;
+    this.newGroupDescription = group.description || '';
+    this.isAddingGroup = false;
+  }
+
+  updateFieldGroup(): void {
+    if (this.editingGroupId && this.newGroupName.trim()) {
+      const updatedGroup: FieldGroup = {
+        id: this.editingGroupId,
+        name: this.newGroupName,
+        description: this.newGroupDescription,
+        fields: this.fieldGroups.find(g => g.id === this.editingGroupId)?.fields || [],
+        required: false,
+        min: null,
+        max: null
+      };
+      this.formBuilderService.updateFieldGroup(updatedGroup);
+      this.resetForm();
+      this.loadFieldGroups();
+    }
+  }
+
+  cancelEditing(): void {
+    this.resetForm();
   }
 
   selectGroup(groupId: string): void {
@@ -67,6 +95,13 @@ export class FieldGroupsPanelComponent implements OnInit {
       this.formBuilderService.setSelectedGroupId(this.selectedGroupId);
     }
     this.loadFieldGroups();
+  }
+
+  private resetForm(): void {
+    this.newGroupName = '';
+    this.newGroupDescription = '';
+    this.isAddingGroup = false;
+    this.editingGroupId = null;
   }
 
   private generateId(): string {
