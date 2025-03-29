@@ -84,7 +84,7 @@ export class FormBuilderService {
       const newField: FormField = {
         id: this.generateId(),
         type: fieldType,
-        name: name || this.getDefaultName(fieldType), // Use provided name or default
+        name: name || this.getDefaultName(fieldType),
         required: false
       };
 
@@ -139,7 +139,6 @@ export class FormBuilderService {
         newField.options = ['Option 1', 'Option 2'];
       }
 
-      // Insert at specified position or at the end
       if (position !== undefined && position >= 0 && position <= group.fields.length) {
         group.fields.splice(position, 0, newField);
       } else {
@@ -177,19 +176,16 @@ export class FormBuilderService {
 
   handleDrop(groupId: string, event: CdkDragDrop<any[]>): void {
     if (event.previousContainer === event.container) {
-      // Reorder within the same list
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
-      // Transfer from library to form
       const fieldType = event.previousContainer.data[event.previousIndex].type;
       this.addFieldToGroup(groupId, fieldType);
     }
 
-    // Update the group
     const group = this.getFieldGroup(groupId);
     if (group) {
       this.updateFieldGroup(group);

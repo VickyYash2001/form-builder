@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormFieldType } from '../../models/form-field.model';
-import { FormBuilderService } from '../../services/form-builder.service';
 import { CdkDrag, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -13,10 +12,11 @@ import { CdkDrag, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 })
 export class FieldPropertiesDrawerComponent {
   @ViewChild('libraryList') libraryList!: CdkDropList;
+
   fieldTypes = [
     { type: FormFieldType.Text, name: 'Single Line Text', icon: 'text_fields', defaultName: 'Text Field' },
     { type: FormFieldType.Textarea, name: 'Multi Line Text', icon: 'notes', defaultName: 'Text Area' },
-    { type: FormFieldType.Number, name: 'Number', icon: 'numbers',  defaultName: 'Number' },
+    { type: FormFieldType.Number, name: 'Number', icon: 'numbers', defaultName: 'Number' },
     { type: FormFieldType.Email, name: 'Email', icon: 'email', defaultName: 'Email' },
     { type: FormFieldType.Date, name: 'Date', icon: 'calendar_today', defaultName: 'Date' },
     { type: FormFieldType.Time, name: 'Time', icon: 'schedule', defaultName: 'Time' },
@@ -27,8 +27,4 @@ export class FieldPropertiesDrawerComponent {
     { type: FormFieldType.Multiselect, name: 'Multi Selection', icon: 'playlist_add_check', defaultName: 'Multi Select' },
     { type: FormFieldType.File, name: 'File Upload', icon: 'attach_file', defaultName: 'File Upload' }
   ]
-
-  constructor(private formBuilderService: FormBuilderService) {
-
-  }
 }

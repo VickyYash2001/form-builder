@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class FormElementsPanelComponent implements OnInit {
   @ViewChild('formElementsList') formElementsList!: CdkDropList;
+
   selectedGroup: FieldGroup | null = null;
   fields: FormField[] = [];
   selectedFieldId: string | null = null;
@@ -87,23 +88,19 @@ export class FormElementsPanelComponent implements OnInit {
     this.isDraggingOverBottom = false;
   }
 
-  // Modify your drop method
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
-      // Reorder within the same list
       moveItemInArray(
         this.selectedGroup!.fields,
         event.previousIndex,
         event.currentIndex
       );
     } else {
-      // Handle drop from library
       const fieldData = event.previousContainer.data[event.previousIndex];
 
       if (this.selectedGroup) {
         let insertAt = 0;
 
-        // Determine insert position based on drop zone
         if (this.dropPosition === 'top') {
           insertAt = 0;
         } else if (this.dropPosition === 'bottom') {
@@ -112,7 +109,6 @@ export class FormElementsPanelComponent implements OnInit {
           insertAt = this.dropPosition;
         }
 
-        // Add the field at the determined position
         this.formBuilderService.addFieldToGroupAtPosition(
           this.selectedGroup.id,
           fieldData.type,
@@ -122,11 +118,9 @@ export class FormElementsPanelComponent implements OnInit {
       }
     }
 
-    // Reset drop indicators
     this.isDraggingOverEmpty = false;
     this.clearDropPosition();
 
-    // Update the group
     if (this.selectedGroup) {
       this.fields = [...this.selectedGroup.fields];
       this.formBuilderService.updateFieldGroup(this.selectedGroup);

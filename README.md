@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 A powerful drag-and-drop form builder application built with Angular 17, Angular Material, and Tailwind CSS.
 
-## Featur0es
+## Features
 
 - **Intuitive Drag-and-Drop Interface**
 - **Modular Component Architecture**
@@ -48,35 +48,13 @@ A powerful drag-and-drop form builder application built with Angular 17, Angular
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-### Project Structure
-
-src/
-├── app/
-│ ├── components/
-│ │ ├── field-groups-panel/ # Left panel - form groups
-│ │ ├── form-elements-panel/ # Middle panel - form builder
-│ │ ├── field-properties-drawer/ # Right panel - field properties
-│ │ ├── elements-library-panel/ # Form elements library
-│ │ └── live-preview/ # Preview component
-│ ├── models/ # Data models
-│ ├── services/ # Application services
-│ ├── app.component.\* # Root component
-│ └── app.module.ts # Root module
-├── assets/
-├── environments/
-└── styles/ # Global styles
-
 ### Technologies Used
 
-Frontend Framework: Angular 17
-
-UI Components: Angular Material
-
-Styling: Tailwind CSS
-
-Drag-and-Drop: Angular CDK
-
-State Management: RxJS
+- **Frontend Framework: Angular 17**
+- **UI Components: Angular Material**
+- **Styling: Tailwind CSS**
+- **Drag-and-Drop: Angular CDK**
+- **State Management: RxJS**
 
 ## Build
 
@@ -98,3 +76,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+**Full Changelog**: https://github.com/VickyYash2001/form-builder/commits/v1.0.1
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a8282dba-2e0e-45f4-838a-5b4a53bce629/deploy-status)](https://app.netlify.com/sites/zuper-form-builder/deploys)
+
+# Live Demo
+[https://zuper-form-builder.netlify.app/](https://zuper-form-builder.netlify.app/)

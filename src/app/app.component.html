@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold">{{title}}</h1>
       <div class="flex space-x-4">
         <button (click)="togglePreview()" class="px-4 py-2 bg-blue-700 rounded hover:bg-blue-800 transition">
-          {{ showPreview ? 'Hide Preview' : 'Show Preview' }}
+          {{ showPreview ? 'Show Properties' : 'Show Preview' }}
         </button>
       </div>
     </div>
@@ -28,10 +28,12 @@
         <div class="bg-white rounded-lg shadow-md p-4 overflow-auto flex-grow">
           <app-field-properties-drawer></app-field-properties-drawer>
         </div>
-        <div class="bg-white rounded-lg shadow-md p-4 overflow-auto flex-grow mt-3" *ngIf="!showPreview">
+        <div #propertiesContainer tabindex="-1" class="bg-white rounded-lg shadow-md p-4 overflow-auto flex-grow mt-3"
+          *ngIf="!showPreview">
           <app-elements-library-panel></app-elements-library-panel>
         </div>
-        <div class="bg-white rounded-lg shadow-md p-4 overflow-auto flex-grow mt-3" *ngIf="showPreview">
+        <div #previewContainer tabindex="-1" class="bg-white rounded-lg shadow-md p-4 overflow-auto flex-grow mt-3"
+          *ngIf="showPreview">
           <app-live-preview></app-live-preview>
         </div>
       </div>
